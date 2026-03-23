@@ -6,7 +6,7 @@ export default function Estrellas() {
   const [estrellas, setEstrellas] = useState(0)
 
   const IncEstrellas = () => {
-    setEstrellas(estrellas + 1)
+    setEstrellas(estrellas + 5)
   }
 
 
@@ -14,7 +14,7 @@ export default function Estrellas() {
     <>
         <p> {estrellas} ⭐ </p>
         <button onClick={IncEstrellas}>
-          Incrementar estrellas
+          Incrementar contador de estrellas
         </button>
     </>
   )
