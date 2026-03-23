@@ -3,18 +3,18 @@ import { useState } from "react";
 
 export default function Estrellas() {
 
-  const [estrellas, setEstrellas] = useState(0)
+  const [galletas, setGalletas] = useState(1)
 
   const IncEstrellas = () => {
-    setEstrellas(estrellas + 5)
+    setGalletas(galletas + 1)
   }
 
 
   return (
     <>
-        <p> {estrellas} ⭐ </p>
+        <p> {galletas} 🍪 </p>
         <button onClick={IncEstrellas}>
-          Incrementar contador de estrellas
+          Agregar galleta
         </button>
     </>
   )
