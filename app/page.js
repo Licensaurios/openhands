@@ -24,6 +24,9 @@ export default function Home() {
               <a href="/login" className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors">
                 Iniciar Sesión
               </a>
+              <a href="/registro" className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors">
+                Registrarse
+              </a>
             </nav>
           </div>
         </div>

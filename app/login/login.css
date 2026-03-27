@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Source+Sans+3:wght@300;400;500&display=swap');
+
+/* ─── Variables ─────────────────────────────────────── */
+:root {
+  --cream:       #f7f4ef;
+  --parchment:   #ede8df;
+  --ink:         #1c1a17;
+  --ink-muted:   #5a5650;
+  --ink-faint:   #9a948c;
+  --accent:      #2d5a3d;       /* verde academia */
+  --accent-soft: #e8f0eb;
+  --gold:        #b8960c;
+  --border:      #d4cec5;
+  --radius:      6px;
+  --shadow:      0 2px 16px rgba(28, 26, 23, 0.08);
+}
+
+/* ─── Reset base ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cream);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(45, 90, 61, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(184, 150, 12, 0.05) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231c1a17' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+/* ─── Contenedor ─────────────────────────────────────── */
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 48px 44px 44px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  animation: fadeUp .5s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Línea dorada decorativa arriba */
+.login-container::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  border-radius: 2px;
+  margin-bottom: 28px;
+}
+
+/* ─── Título ─────────────────────────────────────────── */
+.login-container h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 32px;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Formulario ─────────────────────────────────────── */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+  margin-top: 18px;
+}
+
+label:first-of-type { margin-top: 0; }
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 11px 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  background: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.1);
+}
+
+/* ─── Enlace olvidé contraseña ───────────────────────── */
+form a {
+  align-self: flex-end;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color .15s;
+}
+
+form a:hover { border-bottom-color: var(--accent); }
+
+/* ─── Botón principal ────────────────────────────────── */
+form button {
+  margin-top: 24px;
+  padding: 13px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+}
+
+form button:hover  { background: #24492f; }
+form button:active { transform: scale(0.98); }
+
+/* ─── Divisor ────────────────────────────────────────── */
+.login-container > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+
+/* ─── Botones sociales ───────────────────────────────── */
+.icons-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 16px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background .15s, border-color .15s, transform .1s;
+}
+
+.icons-login:hover {
+  background: var(--parchment);
+  border-color: #b8b2a8;
+}
+
+.icons-login:active { transform: scale(0.98); }
+
+.icons-login img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* ─── Responsive ─────────────────────────────────────── */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 36px 28px 32px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+  }
+}   
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.divider span {
+  padding: 0 10px;
+}
