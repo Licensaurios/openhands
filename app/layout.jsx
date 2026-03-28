@@ -1,6 +1,6 @@
 // app/layout.jsx
 import { ClerkProvider } from "@clerk/nextjs";
-
+import "./globals.css";
 export default function RootLayout({ children }) {
   //no usado mientras(no valo mdre para los disseños)
   const clerkAparrence = {
