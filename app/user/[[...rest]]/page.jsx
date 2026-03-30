@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
 import {
   Home, FolderOpen, MessageSquare, Plus, Bell, Settings,
-  Search, Star, ChevronLeft, ChevronRight, LifeBuoy,
-  MessageCircle, Share2, Bookmark, MoreHorizontal,
-  TrendingUp, Link2,
+  Search, Star, ChevronLeft, ChevronRight, Hash, LifeBuoy, MessageCircle, Share2, Bookmark, MoreHorizontal,
+  TrendingUp, Link2, Terminal,
+  Pointer
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import "./user.css";
@@ -131,21 +131,26 @@ function PostCard({ post }) {
         </div>
 
         {/* Content */}
-        <div className="post-card__content" onClick={() => router.push(`/post`)}>
+        <div style={{ flex:1, padding:"16px 20px" }}>
           {/* Meta */}
-          <div className="post-card__meta">
-            <span className="post-card__community">{post.community}</span>
-            <span className="post-card__dot">•</span>
-            <span className="post-card__author">Posted by {post.author}</span>
-            <span className="post-card__dot">•</span>
-            <span className="post-card__time">{post.time}</span>
-            <div className="post-card__more">
-              <MoreHorizontal size={16} />
+          <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8, flexWrap:"wrap" }}>
+            <span style={{ fontSize:12, color: C.orange, fontWeight:700, cursor:"pointer" }} onClick={() => router.push(`/community`)}>{post.community}</span>
+            <span style={{ color: C.border }}>•</span>
+            <span style={{ fontSize:12, color: C.muted }}>Posted by {post.author}</span>
+            <span style={{ color: C.border }}>•</span>
+            <span style={{ fontSize:12, color: C.muted }}>{post.time}</span>
+            <div style={{ marginLeft:"auto" }}>
+              <MoreHorizontal size={16} color={C.muted} style={{ cursor:"pointer" }} />
             </div>
           </div>
 
           {/* Title */}
-          <h3 className="post-card__title">{post.title}</h3>
+          <h3 style={{ margin:"0 0 12px", fontSize:16, fontWeight:700, color: C.text, lineHeight:1.4, cursor:"pointer" }}
+            onClick={() => router.push(`/post`)}
+            onMouseEnter={e => e.target.style.color = C.orange}
+            onMouseLeave={e => e.target.style.color = C.text}>
+            {post.title}
+          </h3>
 
           {/* Code block */}
           {post.hasCode && (

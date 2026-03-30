@@ -141,9 +141,10 @@ function PostCard({ post, query }) {
           <LikeButton count={post.votes} />
         </div>
 
-        <div style={{ flex:1, padding:"16px 20px" }} onClick={() => router.push(`/post`)}>
-          <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8, flexWrap:"wrap" }}>
-            <span style={{ fontSize:12, color:C.orange, fontWeight:700 }}>{post.community}</span>
+        {/* Body */}
+        <div style={{ flex:1, padding:"16px 20px" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8, flexWrap:"wrap", cursor:"pointer" }}>
+            <span style={{ fontSize:12, color:C.orange, fontWeight:700 }} onClick={() => router.push(`/community`)}>{post.community}</span>
             <span style={{ color:C.border }}>•</span>
             <span style={{ fontSize:12, color:C.muted }}>Posted by {post.author}</span>
             <span style={{ color:C.border }}>•</span>
@@ -151,6 +152,7 @@ function PostCard({ post, query }) {
           </div>
 
           <h3 style={{ margin:"0 0 12px", fontSize:16, fontWeight:700, color:C.text, lineHeight:1.4, cursor:"pointer" }}
+            onClick={() => router.push(`/post`)}
             onMouseEnter={e => e.target.style.color = C.orange}
             onMouseLeave={e => e.target.style.color = C.text}>
             {highlightTitle(post.title)}
