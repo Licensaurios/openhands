@@ -341,9 +341,9 @@ export default function PostPage() {
       <div style={{ minHeight:"100vh", background:C.offWhite }}>
 
         {/* ── Topbar ── */}
-        <header style={{
+        <header className="px-4 md:px-7 py-2 md:py-0" style={{
           background:C.white, borderBottom:`1px solid ${C.border}`,
-          padding:"0 28px", height:60,
+          minHeight:60,
           display:"flex", alignItems:"center", gap:16,
           position:"sticky", top:0, zIndex:50,
         }}>
@@ -354,9 +354,10 @@ export default function PostPage() {
                          Volver <ChevronLeft size={15} />
                       </button>
 
-          <div style={{ display:"flex", flexDirection:"column" }}>
+          {/* Contenedor central elástico */}
+          <div style={{ display:"flex", flexDirection:"column", flex: 1, minWidth: 0 }}>
             <span style={{ fontSize:11, color:C.muted, fontWeight:600 }}>{POST.community}</span>
-            <h1 style={{ fontSize:15, fontWeight:800, color:C.text, letterSpacing:-.2, maxWidth:500, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+            <h1 className="truncate" style={{ fontSize:15, fontWeight:800, color:C.text, letterSpacing:-.2 }}>
               {POST.title}
             </h1>
           </div>
