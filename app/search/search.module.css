@@ -1,0 +1,774 @@
+/* ─── Layout General ─────────────────────────────────────────────────────── */
+.pageWrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--off-white);
+}
+
+.mainColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ─── Topbar / Header ────────────────────────────────────────────────────── */
+.header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+.backBtn:hover {
+  color: var(--orange);
+}
+
+.headerTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.headerActions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.iconBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  transition: border-color 0.15s, color 0.15s;
+}
+.iconBtn:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+/* ─── Contenedor Principal ───────────────────────────────────────────────── */
+.content {
+  flex: 1;
+  padding: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ─── Barra de Búsqueda ──────────────────────────────────────────────────── */
+.searchForm {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.searchIconLeft {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--orange);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 15px 54px 15px 50px;
+  border-radius: 16px;
+  border: 2px solid var(--orange);
+  font-size: 15px;
+  color: var(--text);
+  background: var(--white);
+  box-shadow: 0 4px 20px rgba(255, 109, 45, 0.12);
+  transition: box-shadow 0.2s;
+}
+.searchInput:focus {
+  box-shadow: 0 6px 28px rgba(255, 109, 45, 0.22);
+}
+
+.clearBtn {
+  position: absolute;
+  right: 54px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+}
+.clearBtn:hover {
+  color: var(--text);
+}
+
+.submitBtn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--orange);
+  border: none;
+  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.submitBtn:hover {
+  background: var(--orange-light);
+}
+
+/* ─── Sección de Tags ────────────────────────────────────────────────────── */
+.tagsBox {
+  background: var(--white);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+}
+
+.tagsHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.tagCountBadge {
+  font-size: 11px;
+  background: var(--orange);
+  color: var(--white);
+  border-radius: 99px;
+  padding: 1px 8px;
+  font-weight: 700;
+}
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.tagBtn {
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tagBtn:hover {
+  border-color: var(--orange-light);
+  color: var(--orange-light);
+}
+.tagActive {
+  border-color: var(--orange);
+  background: var(--orange-dim);
+  color: var(--orange);
+}
+
+/* Añadir nuevo tag */
+.addTagWrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.addTagInput {
+  padding: 4px 12px;
+  border-radius: 99px;
+  border: 1.5px solid var(--orange);
+  font-size: 12px;
+  width: 110px;
+  color: var(--text);
+  background: var(--orange-dim);
+}
+.addTagConfirmBtn {
+  background: var(--orange);
+  border: none;
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: var(--white);
+  font-weight: 700;
+  cursor: pointer;
+}
+.addTagCancelBtn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 99px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.dashedAddBtn {
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px dashed var(--border);
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: border-color 0.15s, color 0.15s;
+}
+.dashedAddBtn:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+/* ─── Barra de Filtros ───────────────────────────────────────────────────── */
+.filtersBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filtersGroupWrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filterToggleBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.filterToggleActive {
+  border-color: var(--orange);
+  background: var(--orange-dim);
+  color: var(--orange);
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filterLabel {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.filterSelect {
+  padding: 7px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.filterSelectActive {
+  border-color: var(--orange);
+  background: var(--orange-dim);
+  color: var(--orange);
+}
+
+.sortOptionsRow {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.sortBtn {
+  padding: 7px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sortBtnActive {
+  border-color: var(--orange);
+  background: var(--orange-dim);
+  color: var(--orange);
+}
+
+.clearFiltersBtn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--red);
+  background: var(--red-dim);
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.clearFiltersBtn:hover {
+  opacity: 0.75;
+}
+
+/* ─── Conteo de Resultados ───────────────────────────────────────────────── */
+.resultsCountRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.resultsText {
+  font-size: 13px;
+  color: var(--muted);
+}
+.resultsBold {
+  font-weight: 700;
+  color: var(--text);
+}
+.resultsError {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.activeTagsRow {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.activeTagPill {
+  font-size: 11px;
+  background: var(--orange-dim);
+  color: var(--orange);
+  border-radius: 99px;
+  padding: 2px 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.removeTagBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--orange);
+  display: flex;
+  line-height: 1;
+}
+.removeTagBtn:hover {
+  color: var(--red);
+}
+
+/* ─── Tarjeta de Post ────────────────────────────────────────────────────── */
+.postCard {
+  background: var(--white);
+  border-radius: 16px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.postCard:hover {
+  box-shadow: 0 8px 32px rgba(255, 109, 45, 0.15);
+  transform: translateY(-1px);
+}
+
+.postCardFeatured {
+  border-color: var(--orange);
+  box-shadow: 0 4px 24px rgba(255, 109, 45, 0.12);
+}
+
+.featuredBanner {
+  background: linear-gradient(90deg, var(--orange), var(--orange-light));
+  padding: 6px 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+
+.cardInner {
+  display: flex;
+}
+
+.voteColumn {
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--off-white);
+  border-right: 1px solid var(--border);
+  min-width: 52px;
+}
+
+.likeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.likeBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--muted);
+  transition: color 0.15s, transform 0.15s;
+  font-size: 18px;
+}
+.likeBtnActive {
+  color: var(--red);
+  transform: scale(1.25);
+}
+.likeCount {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+.likeCountActive {
+  color: var(--red);
+}
+
+.cardBody {
+  flex: 1;
+  padding: 16px 20px;
+}
+
+.postMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+.postCommunity {
+  font-size: 12px;
+  color: var(--orange);
+  font-weight: 700;
+}
+.postCommunity:hover {
+  text-decoration: underline;
+}
+.metaDivider {
+  color: var(--border);
+}
+.metaText {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.postTitle {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.postTitle:hover {
+  color: var(--orange);
+}
+.highlight {
+  background: var(--orange-dim);
+  color: var(--orange);
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+.codeBlock {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(255, 109, 45, 0.2);
+}
+.codeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.macButtons {
+  display: flex;
+  gap: 6px;
+}
+.macButtons div {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.codeLangBadge {
+  background: var(--orange);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 99px;
+}
+.codeLine {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.refsWrapper {
+  margin-bottom: 14px;
+}
+.refsHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+.refsGrid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.refCard {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 160px;
+  transition: border-color 0.15s;
+}
+.refCard:hover {
+  border-color: var(--orange);
+}
+.refLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+.refSub {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.tagsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.ratingBox {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  transition: background 0.15s, color 0.15s;
+}
+.actionBtn:hover {
+  background: var(--orange-dim);
+  color: var(--orange);
+}
+.saveBtn {
+  margin-left: auto;
+}
+.saveBtnActive {
+  color: var(--orange);
+}
+
+/* ─── Empty State & Loading ──────────────────────────────────────────────── */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  gap: 14px;
+}
+.emptyIcon {
+  font-size: 48px;
+}
+.emptyTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+.emptyDesc {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+}
+.emptyBtn {
+  margin-top: 8px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  background: var(--orange);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+.emptyBtn:hover {
+  background: var(--orange-light);
+}
+
+.loadingScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--off-white);
+}
+.loadingText {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+
+/* ─── Responsive (Media Queries) ─────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 16px;
+  }
+  .content {
+    padding: 16px;
+  }
+  .filtersGroupWrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+  .clearFiltersBtn {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Reducir tamaño lateral del conteo de likes en móviles */
+  .voteColumn {
+    padding: 12px 8px;
+    min-width: 40px;
+  }
+  .cardBody {
+    padding: 12px 16px;
+  }
+  .postTitle {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerTitle {
+    display: none; /* Ocultar título si falta espacio */
+  }
+  .iconBtn {
+    display: none; /* Opcional: Ocultar iconos secundarios en móvil para dejar solo UserButton y Back */
+  }
+  .tagsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .addTagWrapper {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .addTagInput {
+    flex: 1;
+  }
+}

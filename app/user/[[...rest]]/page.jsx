@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
 import {
   Home, FolderOpen, MessageSquare, Plus, Bell, Settings,
-  Search, Star, ChevronLeft, ChevronRight, Hash, LifeBuoy, MessageCircle, Share2, Bookmark, MoreHorizontal,
-  TrendingUp, Link2, Terminal,
-  Pointer
+  Search, Star, ChevronLeft, ChevronRight, Hash, LifeBuoy, 
+  MessageCircle, Share2, Bookmark, MoreHorizontal,
+  TrendingUp, Link2, PenSquare, Users
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import "./user.css";
@@ -16,7 +16,7 @@ const C = {
   orange:      "#FF6D2D",
   orangeLight: "#FF8F5C",
   orangeDim:   "#FFF0E9",
-  dark:        "#1A1F2E",
+  gray:        "#545454",
   white:       "#FFFFFF",
   offWhite:    "#F7F8FC",
   border:      "#E8EBF4",
@@ -27,7 +27,6 @@ const C = {
   redDim:      "#FFF0F3",
   green:       "#10B981",
 };
-
 
 // ─── Sample data ──────────────────────────────────────────────────────────────
 const POSTS = [
@@ -87,11 +86,10 @@ const POSTS = [
 
 const TRENDING = ["#React19", "#PythonAutomation", "#DockerCompose", "#CI_CD", "#NextJS15"];
 
-const OPEN_REQUESTS = [
-  { title: "Script for S3 Backup", community: "d/CloudDev" },
-  { title: "Discord Bot",          community: "d/Python" },
-  { title: "Script for S3 Backup", community: "d/CloudDev" },
-  { title: "Discord Bot",          community: "d/Python" },
+const RECOMMENDED_COMMUNITIES = [
+  { icon: "🐍", name: "d/Python Devs", members: "12.4k" },
+  { icon: "🌐", name: "d/WebDesign",   members: "8.2k" },
+  { icon: "🔐", name: "d/CyberSec",    members: "5.1k" },
 ];
 
 const NAV_ITEMS = [
@@ -134,7 +132,6 @@ function PostCard({ post }) {
 
   return (
     <div className={`post-card ${post.featured ? "post-card--featured" : ""}`}>
-      {/* Featured badge */}
       {post.featured && (
         <div className="post-card__featured-badge">
           <Star size={12} fill="#fff" color="#fff" />
@@ -143,34 +140,26 @@ function PostCard({ post }) {
       )}
 
       <div className="post-card__body">
-        {/* Vote column */}
         <div className="post-card__votes">
           <LikeButton count={post.votes} />
         </div>
 
-        {/* Content */}
-        <div style={{ flex:1, padding:"16px 20px" }}>
-          {/* Meta */}
-          <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8, flexWrap:"wrap" }}>
-            <span style={{ fontSize:12, color: C.orange, fontWeight:700, cursor:"pointer" }} onClick={() => router.push(`/community`)}>{post.community}</span>
-            <span style={{ color: C.border }}>•</span>
-            <span style={{ fontSize:12, color: C.muted }}>Posted by {post.author}</span>
-            <span style={{ color: C.border }}>•</span>
-            <span style={{ fontSize:12, color: C.muted }}>{post.time}</span>
-            <div style={{ marginLeft:"auto" }}>
-              <MoreHorizontal size={16} color={C.muted} style={{ cursor:"pointer" }} />
+        <div className="post-card__content">
+          <div className="post-card__meta">
+            <span className="post-card__community" onClick={() => router.push(`/community`)}>{post.community}</span>
+            <span className="post-card__dot">•</span>
+            <span className="post-card__author">Posted by {post.author}</span>
+            <span className="post-card__dot">•</span>
+            <span className="post-card__time">{post.time}</span>
+            <div className="post-card__more">
+              <MoreHorizontal size={16} color={C.muted} />
             </div>
           </div>
 
-          {/* Title */}
-          <h3 style={{ margin:"0 0 12px", fontSize:16, fontWeight:700, color: C.text, lineHeight:1.4, cursor:"pointer" }}
-            onClick={() => router.push(`/post`)}
-            onMouseEnter={e => e.target.style.color = C.orange}
-            onMouseLeave={e => e.target.style.color = C.text}>
+          <h3 className="post-card__title" onClick={() => router.push(`/post`)}>
             {post.title}
           </h3>
 
-          {/* Code block */}
           {post.hasCode && (
             <div className="post-card__code">
               <div className="post-card__code-header">
@@ -181,15 +170,16 @@ function PostCard({ post }) {
                 </div>
                 <span className="post-card__code-lang">{post.codeLang}</span>
               </div>
-              {post.codeLines.map((l, i) => (
-                <div key={i} className="post-card__code-line" style={{ color: l.color }}>
-                  {l.text}
-                </div>
-              ))}
+              <div className="post-card__code-wrapper">
+                {post.codeLines.map((l, i) => (
+                  <div key={i} className="post-card__code-line" style={{ color: l.color }}>
+                    {l.text}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
-          {/* References */}
           {post.refs.length > 0 && (
             <div className="post-card__refs">
               <div className="post-card__refs-header">
@@ -210,7 +200,6 @@ function PostCard({ post }) {
             </div>
           )}
 
-          {/* Tags + rating */}
           <div className="post-card__tags">
             {post.tags.map((t) => <Tag key={t} label={t} />)}
             {post.rating && (
@@ -221,7 +210,6 @@ function PostCard({ post }) {
             )}
           </div>
 
-          {/* Action bar */}
           <div className="post-card__actions">
             {[
               { icon: MessageCircle, label: `${post.comments} Comments` },
@@ -257,12 +245,9 @@ export default function Dashboard() {
   const router = useRouter();
   const { user } = useUser();
 
-  // Below 1000px: left sidebar goes overlay
-  // Below 740px: right sidebar goes overlay too
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
-
       if (w < 1000) {
         setSidebarOpen(false);
         setIsOverlay(true);
@@ -271,7 +256,7 @@ export default function Dashboard() {
         setSidebarOpen(true);
       }
 
-      if (w < 740) {
+      if (w < 850) {
         setRightOpen(false);
         setIsRightOverlay(true);
       } else {
@@ -284,18 +269,16 @@ export default function Dashboard() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Lock body scroll when any overlay panel is open
-  useEffect(() => {
-    const anyOverlayOpen = (isOverlay && sidebarOpen) || (isRightOverlay && rightOpen);
-    document.body.style.overflow = anyOverlayOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [isOverlay, sidebarOpen, isRightOverlay, rightOpen]);
-
   const tabs = ["For You", "Trending Projects", "Community Feed"];
+
+  // Lógica para unirse a una comunidad (puedes adaptarlo luego a tu base de datos)
+  const handleJoinCommunity = (communityName) => {
+    console.log(`Unido a ${communityName}`);
+    // Aquí podrías agregar un pequeño estado para cambiar "Join" a "Joined" visualmente
+  };
 
   return (
     <div className="layout">
-      {/* Backdrop for overlay mode */}
       {isOverlay && sidebarOpen && (
         <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />
       )}
@@ -303,44 +286,31 @@ export default function Dashboard() {
       {/* ── Sidebar ── */}
       <aside className={`sidebar ${sidebarOpen ? "sidebar--open" : "sidebar--closed"} ${isOverlay ? "sidebar--overlay" : ""}`}>
         <div className="sidebar__inner">
-          {/* Logo */}
           <div className="sidebar__logo">
-            <img src="/logo.png" alt="OpenHands" />
+            <img src="/assets/icons/logo.png" alt="OpenHands" />
             <span className="sidebar__logo-text">Open Hands</span>
           </div>
 
-          {/* Profile */}
           <div className="sidebar__profile">
-            <img
-              src={user?.imageUrl}
-              alt="avatar"
-              className="sidebar__avatar"
-            />
+            <img src={user?.imageUrl} alt="avatar" className="sidebar__avatar" />
             <span className="sidebar__username">
               {user?.firstName} {user?.lastName}
             </span>
           </div>
 
-          {/* Nav */}
           <nav className="sidebar__nav">
             {NAV_ITEMS.map(({ icon: Icon, label, badge }) => (
-              <button
-                key={label}
-                className={`nav-item ${label === "Home" ? "nav-item--active" : ""}`}
-              >
+              <button key={label} className={`nav-item ${label === "Home" ? "nav-item--active" : ""}`}>
                 <Icon size={18} />
                 {label}
                 {badge && <span className="nav-item__badge">{badge}</span>}
               </button>
             ))}
-
-            <button className="btn-new-project">
-              <Plus size={16} />
-              New Project
+            <button className="btn-new-project" onClick={() => router.push("/post/new")}>
+              <Plus size={16} /> New Project
             </button>
           </nav>
 
-          {/* Communities */}
           <div>
             <span className="sidebar__section-label">My Communities</span>
             {COMMUNITIES.map((c) => (
@@ -360,14 +330,10 @@ export default function Dashboard() {
           <button className="topbar__toggle" onClick={() => { if (isRightOverlay && rightOpen) setRightOpen(false); setSidebarOpen((v) => !v); }}>
             {sidebarOpen ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
           </button>
-
           <h1 className="topbar__title">OpenHands</h1>
-
           <div className="topbar__actions">
             {[Bell, MessageSquare, Settings].map((Icon, i) => (
-              <button key={i} className="topbar__icon-btn">
-                <Icon size={16} />
-              </button>
+              <button key={i} className="topbar__icon-btn"><Icon size={16} /></button>
             ))}
             <UserButton afterSignOutUrl="/" />
           </div>
@@ -375,42 +341,49 @@ export default function Dashboard() {
 
         {/* Content */}
         <div className="content">
-          {/* Feed column */}
-          <div className="feed">
-            {/* Search */}
-            <div className="search-wrapper">
-              <Search size={16} color="#8B92A9" className="search-icon" />
-              <input
-                className="search-input"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && search.trim()) {
-                    router.push(`/search?q=${encodeURIComponent(search.trim())}`);
-                  }
-                }}
-                placeholder="Search scripts, communities, or #tags (#bash, #python)..."
-              />
+
+          {/* ── FEED WRAPPER ── */}
+          <div className="feed-wrapper">
+            
+            {/* Feed Scroll */}
+            <div className="feed-scroll">
+              <div className="search-wrapper">
+                <Search size={16} color="#8B92A9" className="search-icon" />
+                <input
+                  className="search-input"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && search.trim()) {
+                      router.push(`/search?q=${encodeURIComponent(search.trim())}`);
+                    }
+                  }}
+                  placeholder="Search scripts, communities, or #tags (#bash, #python)..."
+                />
+              </div>
+
+              <div className="tabs">
+                {tabs.map((tab) => (
+                  <button key={tab} onClick={() => setActiveTab(tab)} className={`tab-btn ${activeTab === tab ? "tab-btn--active" : ""}`}>
+                    {tab}
+                  </button>
+                ))}
+              </div>
+
+              {POSTS.map((post) => <PostCard key={post.id} post={post} />)}
             </div>
 
-            {/* Tabs */}
-            <div className="tabs">
-              {tabs.map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`tab-btn ${activeTab === tab ? "tab-btn--active" : ""}`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-
-            {/* Posts */}
-            {POSTS.map((post) => <PostCard key={post.id} post={post} />)}
+            {/* FAB */}
+            <button 
+              className="fab-new-post" 
+              onClick={() => router.push("/post/new")}
+              title="Nueva publicación"
+            >
+              <PenSquare size={24} />
+            </button>
           </div>
 
-          {/* Right sidebar toggle — always visible in overlay mode, outside the panel */}
+          {/* Right sidebar toggle */}
           {isRightOverlay && (
             <button
               className={`right-sidebar__toggle ${rightOpen ? "right-sidebar__toggle--open" : ""}`}
@@ -420,14 +393,13 @@ export default function Dashboard() {
             </button>
           )}
 
-          {/* Backdrop */}
           {isRightOverlay && rightOpen && (
             <div className="sidebar-backdrop" onClick={() => setRightOpen(false)} />
           )}
 
           {/* Right sidebar */}
           <div className={`right-sidebar ${rightOpen ? "right-sidebar--open" : "right-sidebar--closed"} ${isRightOverlay ? "right-sidebar--overlay" : ""}`}>
-
+            
             {/* Trending */}
             <div className="widget widget--trending">
               <div className="widget__header">
@@ -436,27 +408,40 @@ export default function Dashboard() {
               </div>
               <div className="trending-tags">
                 {TRENDING.map((t) => (
-                  <button key={t} className="trending-tag">{t}</button>
+                  <button 
+                    key={t} 
+                    className="trending-tag"
+                    onClick={() => router.push(`/search?q=${encodeURIComponent(t)}`)}
+                  >
+                    {t}
+                  </button>
                 ))}
               </div>
             </div>
 
-            {/* Open Requests */}
+            {/* Recommended Communities (New!) */}
             <div className="widget">
               <div className="widget__header">
-                <LifeBuoy size={16} color="#FF6D2D" />
-                <span className="widget__title">Open Requests</span>
-                <span className="widget__badge">Need Help!</span>
+                <Users size={16} color="#FF6D2D" />
+                <span className="widget__title">Recommended</span>
               </div>
-              {OPEN_REQUESTS.map((r, i) => (
-                <div key={i} className="request-item">
-                  <div className="request-item__dot" />
-                  <div>
-                    <div className="request-item__title">{r.title}</div>
-                    <div className="request-item__community">{r.community}</div>
+              <div className="recommended-list">
+                {RECOMMENDED_COMMUNITIES.map((c, i) => (
+                  <div key={i} className="recommended-item">
+                    <div className="recommended-item__icon">{c.icon}</div>
+                    <div className="recommended-item__info">
+                      <div className="recommended-item__name" onClick={() => router.push('/community')}>{c.name}</div>
+                      <div className="recommended-item__members">{c.members} members</div>
+                    </div>
+                    <button 
+                      className="recommended-item__join"
+                      onClick={() => handleJoinCommunity(c.name)}
+                    >
+                      Join
+                    </button>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
