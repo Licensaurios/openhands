@@ -80,7 +80,7 @@ export default async function LandingPage() {
             <a href={userId ? "/user" : "/login"} className="btn-primary">
               {userId ? "Ir al inicio →" : "Empezar ahora →"}
             </a>
-            <a href="#features" className="btn-dark-outline">Explorar</a>
+            <a href="/search" className="btn-dark-outline">Explorar</a>
           </div>
 
         </div>
@@ -120,7 +120,7 @@ export default async function LandingPage() {
           </p>
           <div className={styles.ctaButtons}>
             <a href="/registro" className="btn-primary">Crear cuenta gratuita →</a>
-            <a href="#features" className="btn-dark-outline">Explorar recursos</a>
+            <a href="/search" className="btn-dark-outline">Explorar recursos</a>
           </div>
         </div>
       </section>
