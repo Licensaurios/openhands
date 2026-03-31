@@ -32,15 +32,28 @@ export default function RootLayout({ children }) {
       <html lang="es">
         <head>
             <title>Open Hands</title>
-            <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"></link>
-            <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"></link>
-            <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"></link>
-            <link rel="manifest" href="/site.webmanifest"></link>
-            <meta property="og:description" content="OpenHands es una plataforma colaborativa de aprendizaje y divulgación de conocimiento a todo el mundo" />
+            <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+            <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+            <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+            <link rel="manifest" href="/site.webmanifest" />
+
+            <meta property="og:title" content="Open Hands — Aprende y comparte conocimiento con el mundo" />
+
             <meta
-                property="og:image"
-                content="https://postimg.cc/cr69R3VT"
+              property="og:description"
+              content="OpenHands es una plataforma colaborativa de aprendizaje y divulgación de conocimiento para todas las personas del mundo. Únete hoy."
             />
+
+            <meta
+              property="og:image"
+              content="https://openhands.space/openhands_preview.png"
+            />
+
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta property="og:image:alt" content="Open Hands — Plataforma colaborativa de aprendizaje" />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://openhands.space" />
 
         </head>
         <body>{children}</body>
