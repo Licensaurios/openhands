@@ -10,6 +10,8 @@
 
 > *"Aprende y disfruta del proceso. Comparte conocimiento con el mundo."*
 
+[![openhands-preview.png](https://i.postimg.cc/m2yvGNVx/openhands-preview.png)](https://postimg.cc/cr69R3VT)
+
 </div>
 
 ---
