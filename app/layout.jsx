@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
             <link rel="manifest" href="/site.webmanifest"></link>
             <meta
                 property="og:image"
-                content="/og_openhands.png"
+                content="https://i.postimg.cc/NfCKbTXN/openhands.png"
             />
 
         </head>
