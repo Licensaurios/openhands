@@ -254,25 +254,21 @@ export default function Dashboard() {
   useEffect(() => {
     if (isLoaded) {
       const w = window.innerWidth;
-      // Solo forzamos abrir la barra si es escritorio y el usuario está logueado
       if (w >= 1000) {
         setSidebarOpen(!!isSignedIn);
       }
     }
   }, [isLoaded, isSignedIn]);
 
-  // ── 2. EFECTO DE RESPONSIVE: Maneja los menús flotantes al cambiar el tamaño ──
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
 
       if (w < 1000) {
         setIsOverlay(true);
-        setSidebarOpen(false); // Forzamos cerrar en móvil
+        setSidebarOpen(false); 
       } else {
         setIsOverlay(false);
-        // OJO: Aquí ya no forzamos abrir/cerrar. 
-        // Así permitimos que el usuario la controle manualmente en PC.
       }
 
       if (w < 850) {
@@ -291,10 +287,8 @@ export default function Dashboard() {
 
   const tabs = ["For You", "Trending Projects", "Community Feed"];
 
-  // Lógica para unirse a una comunidad (puedes adaptarlo luego a tu base de datos)
   const handleJoinCommunity = (communityName) => {
     console.log(`Unido a ${communityName}`);
-    // Aquí podrías agregar un pequeño estado para cambiar "Join" a "Joined" visualmente
   };
 
   return (
@@ -327,7 +321,10 @@ export default function Dashboard() {
               </button>
             ))}
             <button className="btn-new-project" onClick={() => requireAuth(() => router.push("/post/new"))}>
-              <Plus size={16} /> New Project
+              <Plus size={16} /> New Post
+            </button>
+            <button className="btn-new-project" onClick={() => requireAuth(() => router.push("/community/new"))}>
+              <Plus size={16} /> New Community
             </button>
           </nav>
 

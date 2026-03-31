@@ -1,0 +1,375 @@
+/* ─── Layout General ─────────────────────────────────────────────────────── */
+.pageWrapper {
+  min-height: 100vh;
+  background: var(--off-white);
+  padding-bottom: 80px;
+  overflow-y: auto; 
+}
+
+/* ─── Hero Header ────────────────────────────────────────────────────────── */
+.heroHeader {
+  background: linear-gradient(135deg, var(--dark) 0%, #2D1810 100%);
+  padding: 40px 24px 120px; 
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+
+.heroDots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--orange) 0.5px, transparent 0.5px);
+  background-size: 30px 30px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.backBtnDark {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s;
+  z-index: 10;
+}
+.backBtnDark:hover {
+  background: rgba(255, 109, 45, 0.2);
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 5;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.heroBadge {
+  display: inline-block;
+  background: rgba(255, 109, 45, 0.2);
+  color: var(--orange);
+  border: 1px solid rgba(255, 109, 45, 0.3);
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.heroTitle {
+  font-size: clamp(28px, 5vw, 36px);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+
+.heroSubtitle {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+/* ─── Form Container ─────────────────────────────────────────────────────── */
+.formContainer {
+  max-width: 800px;
+  margin: -60px auto 0; 
+  padding: 0 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.formLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  padding: 32px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.card:focus-within {
+  border-color: rgba(255, 109, 45, 0.4);
+  box-shadow: 0 12px 40px rgba(255, 109, 45, 0.1);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--off-white);
+}
+
+.iconWrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--orange-dim);
+  color: var(--orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardHeader h2 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+/* ─── Inputs ─────────────────────────────────────────────────────────────── */
+.inputGroup {
+  margin-bottom: 24px;
+}
+.inputGroup:last-child {
+  margin-bottom: 0;
+}
+
+.inputGroup label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.required {
+  color: var(--red);
+}
+
+.helperText {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* Input normal */
+.input, .textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--off-white);
+  font-size: 15px;
+  color: var(--text);
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  font-family: 'Sora', sans-serif;
+}
+.input:focus, .textarea:focus {
+  border-color: var(--orange);
+  background: var(--white);
+  outline: none;
+  box-shadow: 0 4px 16px rgba(255, 109, 45, 0.1);
+}
+
+.textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* Input con prefijo "d/" */
+.prefixWrapper {
+  display: flex;
+  align-items: center;
+  background: var(--off-white);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.prefixWrapper:focus-within {
+  border-color: var(--orange);
+  background: var(--white);
+  box-shadow: 0 4px 16px rgba(255, 109, 45, 0.1);
+}
+
+.inputPrefix {
+  padding: 14px 0 14px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--muted);
+  background: transparent;
+}
+
+.inputWithPrefix {
+  flex: 1;
+  padding: 14px 18px 14px 4px;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 700;
+  outline: none;
+  font-family: 'Sora', sans-serif;
+}
+
+/* Input con icono de globo */
+.iconInputWrapper {
+  position: relative;
+}
+.inputIcon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+.inputIconPadding {
+  width: 100%;
+  padding: 14px 18px 14px 44px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--off-white);
+  font-size: 15px;
+  color: var(--text);
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  font-family: 'Sora', sans-serif;
+}
+.inputIconPadding:focus {
+  border-color: var(--orange);
+  background: var(--white);
+  outline: none;
+  box-shadow: 0 4px 16px rgba(255, 109, 45, 0.1);
+}
+
+/* ─── Tags ───────────────────────────────────────────────────────────────── */
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--off-white);
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.tagsContainer:focus-within {
+  border-color: var(--orange);
+  background: var(--white);
+  box-shadow: 0 4px 16px rgba(255, 109, 45, 0.1);
+}
+
+.tagInput {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 15px;
+  color: var(--text);
+  flex: 1;
+  min-width: 140px;
+  font-family: 'Sora', sans-serif;
+}
+
+.tagPill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--orange-dim);
+  color: var(--orange);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.tagPill button {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  color: var(--orange);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s, color 0.2s;
+}
+.tagPill button:hover {
+  opacity: 1;
+  color: var(--red);
+}
+
+/* ─── Footer Actions ─────────────────────────────────────────────────────── */
+.formActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  padding-top: 10px;
+}
+
+.btnCancel {
+  padding: 16px 28px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--white);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btnCancel:hover {
+  background: var(--off-white);
+  border-color: var(--muted);
+}
+
+.btnSubmit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--orange) 0%, var(--orange-light) 100%);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 109, 45, 0.3);
+  transition: all 0.2s;
+}
+.btnSubmit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(255, 109, 45, 0.4);
+}
+.btnSubmit:disabled {
+  background: var(--border);
+  color: var(--muted);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ─── Responsive (Media Queries) ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .heroHeader { padding: 40px 16px 80px; }
+  .formContainer { margin-top: -40px; padding: 0 16px; }
+  .card { padding: 24px; }
+}
+
+@media (max-width: 480px) {
+  .formActions { flex-direction: column-reverse; }
+  .btnCancel, .btnSubmit { width: 100%; justify-content: center; }
+  .card { padding: 20px 16px; }
+  .heroTitle { font-size: 24px; }
+}

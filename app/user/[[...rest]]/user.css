@@ -122,11 +122,11 @@ input:focus { outline: none; }
   flex: 1;
   display: flex;
   gap: 0;
-  padding: 28px 28px 0 28px; /* Padding bottom 0 para que el scroll llegue al fondo */
+  padding: 28px 28px 0 28px;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  overflow: hidden; /* Contiene las barras de scroll interiores */
+  overflow: hidden; 
 }
 
 /* ─── Feed Area ──────────────────────────────────────────── */
@@ -134,7 +134,7 @@ input:focus { outline: none; }
   flex: 1;
   min-width: 0;
   margin-right: 24px;
-  position: relative; /* Para anclar el FAB */
+  position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -142,9 +142,9 @@ input:focus { outline: none; }
 
 .feed-scroll {
   flex: 1;
-  overflow-y: auto; /* Aquí ocurre el deslizamiento de posts */
-  padding-bottom: 100px; /* Espacio final para que el FAB no tape el último post */
-  padding-right: 8px; /* Alejar contenido de la barra de scroll */
+  overflow-y: auto; 
+  padding-bottom: 100px;
+  padding-right: 8px; 
 }
 
 /* Search */
@@ -162,7 +162,7 @@ input:focus { outline: none; }
 .fab-new-post {
   position: absolute;
   bottom: 24px;
-  left: 20px; /* Abajo a la izquierda del contenedor de los posts */
+  left: 20px; 
   width: 56px;
   height: 56px;
   border-radius: 50%;
@@ -243,7 +243,7 @@ input:focus { outline: none; }
   width: 260px;
   flex-shrink: 0;
   transition: width 0.25s ease, min-width 0.25s ease;
-  overflow-y: auto; /* Scroll independiente si es muy larga */
+  overflow-y: auto; 
   padding-bottom: 28px;
 }
 
@@ -383,7 +383,7 @@ input:focus { outline: none; }
 @media (max-width: 480px) {
   .fab-new-post {
     bottom: 20px;
-    left: 12px; /* Ajuste para pantallas muy chicas */
+    left: 12px; 
   }
   .post-card__content { padding: 12px 14px; }
   .post-card__votes { padding: 12px 8px; min-width: 44px; }
