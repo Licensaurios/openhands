@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAuthGate } from "../../hooks/useAuthGate";
 import { UserButton, useUser } from "@clerk/nextjs";
+
 import {
   Home, FolderOpen, MessageSquare, Plus, Bell, Settings,
-  Search, Star, ChevronLeft, ChevronRight, Hash, LifeBuoy, 
+  Search, Star, ChevronLeft, ChevronRight, Hash, LifeBuoy,
   MessageCircle, Share2, Bookmark, MoreHorizontal,
   TrendingUp, Link2, PenSquare, Users
 } from "lucide-react";
@@ -14,89 +14,89 @@ import "./user.css";
 
 // ─── Palette ─────────────────────────────────────────────────────────────────
 const C = {
-  orange:      "#FF6D2D",
+  orange: "#FF6D2D",
   orangeLight: "#FF8F5C",
-  orangeDim:   "#FFF0E9",
-  gray:        "#545454",
-  white:       "#FFFFFF",
-  offWhite:    "#F7F8FC",
-  border:      "#E8EBF4",
-  muted:       "#8B92A9",
-  text:        "#2D3452",
-  code:        "#0F1624",
-  red:         "#FF4D6D",
-  redDim:      "#FFF0F3",
-  green:       "#10B981",
+  orangeDim: "#FFF0E9",
+  gray: "#545454",
+  white: "#FFFFFF",
+  offWhite: "#F7F8FC",
+  border: "#E8EBF4",
+  muted: "#8B92A9",
+  text: "#2D3452",
+  code: "#0F1624",
+  red: "#FF4D6D",
+  redDim: "#FFF0F3",
+  green: "#10B981",
 };
 
 // ─── Sample data ──────────────────────────────────────────────────────────────
-const POSTS = [
-  {
-    id: 1,
-    featured: true,
-    title: "Automated Nginx + UFW Firewall Config [Ubuntu 24.04]",
-    author: "u/SarahCode",
-    community: "d/Linux Scripts",
-    time: "3h ago",
-    tags: ["#linux", "#nginx", "#bash"],
-    rating: 4.9,
-    votes: 248,
-    comments: 34,
-    hasCode: true,
-    codeLines: [
-      { text: "$ bash",                                      color: "#FF6D2D" },
-      { text: "#import /u/bain",                             color: "#FF6D6D" },
-      { text: "automated Nginx + UFW Firewall Config",       color: "#6EE7B7" },
-      { text: "automated Nginx + UFW Firewall",              color: "#6EE7B7" },
-    ],
-    codeLang: "Bash",
-    refs: [
-      { label: "'Basic Nginx Setup'", sub: "(u/DevMike)" },
-      { label: "'UFW Ruleset'",       sub: "(u/SysAdmin01)" },
-    ],
-  },
-  {
-    id: 2,
-    featured: false,
-    title: "Best way to deploy React 19 on Vercel?",
-    author: "u/devjorge",
-    community: "d/React Hub",
-    time: "1h ago",
-    tags: ["#react", "#vercel", "#deploy"],
-    rating: null,
-    votes: 87,
-    comments: 15,
-    hasCode: false,
-    refs: [],
-  },
-  {
-    id: 3,
-    featured: false,
-    title: "¿Cómo optimizar queries lentas en PostgreSQL?",
-    author: "u/dbmaster",
-    community: "d/Databases",
-    time: "5h ago",
-    tags: ["#postgresql", "#sql", "#performance"],
-    rating: null,
-    votes: 132,
-    comments: 22,
-    hasCode: false,
-    refs: [],
-  },
-];
+// const POSTS = [
+//   {
+//     id: 1,
+//     featured: true,
+//     title: "Automated Nginx + UFW Firewall Config [Ubuntu 24.04]",
+//     author: "u/SarahCode",
+//     community: "d/Linux Scripts",
+//     time: "3h ago",
+//     tags: ["#linux", "#nginx", "#bash"],
+//     rating: 4.9,
+//     votes: 248,
+//     comments: 34,
+//     hasCode: true,
+//     codeLines: [
+//       { text: "$ bash",                                      color: "#FF6D2D" },
+//       { text: "#import /u/bain",                             color: "#FF6D6D" },
+//       { text: "automated Nginx + UFW Firewall Config",       color: "#6EE7B7" },
+//       { text: "automated Nginx + UFW Firewall",              color: "#6EE7B7" },
+//     ],
+//     codeLang: "Bash",
+//     refs: [
+//       { label: "'Basic Nginx Setup'", sub: "(u/DevMike)" },
+//       { label: "'UFW Ruleset'",       sub: "(u/SysAdmin01)" },
+//     ],
+//   },
+//   {
+//     id: 2,
+//     featured: false,
+//     title: "Best way to deploy React 19 on Vercel?",
+//     author: "u/devjorge",
+//     community: "d/React Hub",
+//     time: "1h ago",
+//     tags: ["#react", "#vercel", "#deploy"],
+//     rating: null,
+//     votes: 87,
+//     comments: 15,
+//     hasCode: false,
+//     refs: [],
+//   },
+//   {
+//     id: 3,
+//     featured: false,
+//     title: "¿Cómo optimizar queries lentas en PostgreSQL?",
+//     author: "u/dbmaster",
+//     community: "d/Databases",
+//     time: "5h ago",
+//     tags: ["#postgresql", "#sql", "#performance"],
+//     rating: null,
+//     votes: 132,
+//     comments: 22,
+//     hasCode: false,
+//     refs: [],
+//   },
+// ];
 
 const TRENDING = ["#React19", "#PythonAutomation", "#DockerCompose", "#CI_CD", "#NextJS15"];
 
 const RECOMMENDED_COMMUNITIES = [
   { icon: "🐍", name: "d/Python Devs", members: "12.4k" },
-  { icon: "🌐", name: "d/WebDesign",   members: "8.2k" },
-  { icon: "🔐", name: "d/CyberSec",    members: "5.1k" },
+  { icon: "🌐", name: "d/WebDesign", members: "8.2k" },
+  { icon: "🔐", name: "d/CyberSec", members: "5.1k" },
 ];
 
 const NAV_ITEMS = [
-  { icon: Home,          label: "Home",        badge: null },
-  { icon: FolderOpen,    label: "My Projects", badge: null },
-  { icon: MessageSquare, label: "Messages",    badge: 3    },
+  { icon: Home, label: "Home", badge: null },
+  { icon: FolderOpen, label: "My Projects", badge: null },
+  { icon: MessageSquare, label: "Messages", badge: 3 },
 ];
 
 const COMMUNITIES = [
@@ -107,13 +107,11 @@ const COMMUNITIES = [
 // ─── Components ───────────────────────────────────────────────────────────────
 
 function LikeButton({ count }) {
-  const { requireAuth, isSignedIn } = useAuthGate();
-
   const [liked, setLiked] = useState(false);
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
       <button
-        onClick={() => requireAuth(() => setLiked((v) => !v))}
+        onClick={() => setLiked((v) => !v)}
         className={`like-btn ${liked ? "like-btn--liked" : "like-btn--unliked"}`}
       >
         {liked ? "❤️" : "🤍"}
@@ -130,11 +128,10 @@ function Tag({ label }) {
 }
 
 function PostCard({ post }) {
-  const { requireAuth, isSignedIn } = useAuthGate();
-
   const router = useRouter();
   const [saved, setSaved] = useState(false);
-
+  console.log(post.title, post.codeLines)
+  // console.log(post)
   return (
     <div className={`post-card ${post.featured ? "post-card--featured" : ""}`}>
       {post.featured && (
@@ -176,16 +173,16 @@ function PostCard({ post }) {
                 <span className="post-card__code-lang">{post.codeLang}</span>
               </div>
               <div className="post-card__code-wrapper">
-                {post.codeLines.map((l, i) => (
-                  <div key={i} className="post-card__code-line" style={{ color: l.color }}>
-                    {l.text}
+                {post.codeLines.map((line, i) => (
+                  <div key={i} className="post-card__code-line" style={{ color: "#ffff" }}>
+                    {line}
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {post.refs.length > 0 && (
+          {post.refs?.length > 0 && (
             <div className="post-card__refs">
               <div className="post-card__refs-header">
                 <Link2 size={14} color="#FF6D2D" />
@@ -206,7 +203,7 @@ function PostCard({ post }) {
           )}
 
           <div className="post-card__tags">
-            {post.tags.map((t) => <Tag key={t} label={t} />)}
+            {post.tags?.map((t) => <Tag key={t} label={t} />)}
             {post.rating && (
               <div className="post-card__rating">
                 <Star size={14} fill="#FF6D2D" color="#FF6D2D" />
@@ -218,7 +215,7 @@ function PostCard({ post }) {
           <div className="post-card__actions">
             {[
               { icon: MessageCircle, label: `${post.comments} Comments` },
-              { icon: Share2,        label: "Share" },
+              { icon: Share2, label: "Share" },
             ].map(({ icon: Icon, label }) => (
               <button key={label} className="action-btn">
                 <Icon size={14} />
@@ -226,7 +223,7 @@ function PostCard({ post }) {
               </button>
             ))}
             <button
-              onClick={() => requireAuth(() => setSaved((v) => !v))}
+              onClick={() => setSaved((v) => !v)}
               className={`action-btn action-btn--save ${saved ? "action-btn--saved" : ""}`}
             >
               <Bookmark size={14} fill={saved ? "#FF6D2D" : "none"} />
@@ -235,51 +232,63 @@ function PostCard({ post }) {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isOverlay, setIsOverlay]     = useState(false);
-  const [rightOpen, setRightOpen]     = useState(false);
+  const [isOverlay, setIsOverlay] = useState(false);
+  const [rightOpen, setRightOpen] = useState(false);
   const [isRightOverlay, setIsRightOverlay] = useState(false);
-  const [activeTab, setActiveTab]     = useState("For You");
-  const [search, setSearch]           = useState("");
+  const [activeTab, setActiveTab] = useState("For You");
+  const [search, setSearch] = useState("");
   const router = useRouter();
-  const { user, isSignedInn, isLoaded } = useUser();
-  const { requireAuth, isSignedIn } = useAuthGate();
+  const { user } = useUser();
+  const [hasMore, SetHasMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    if (isLoaded) {
-      const w = window.innerWidth;
-      if (w >= 1000) {
-        setSidebarOpen(!!isSignedIn);
-      }
+  async function loadhomepage(page = 1) {
+    try {
+      setLoading(true)
+      const response = await fetch(`/api/resources?page=${page}`);
+      const data = await response.json()
+      console.log("data:", data);
+      setPosts(data.items);
+      SetHasMore(data.has_more);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    } finally {
+      setLoading(false)
     }
-  }, [isLoaded, isSignedIn]);
 
+  }
+  useEffect(() => {
+    loadhomepage(1);
+
+  }, [])
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
-
       if (w < 1000) {
+        setSidebarOpen(false);
         setIsOverlay(true);
-        setSidebarOpen(false); 
       } else {
         setIsOverlay(false);
+        setSidebarOpen(true);
       }
 
       if (w < 850) {
-        setIsRightOverlay(true);
         setRightOpen(false);
+        setIsRightOverlay(true);
       } else {
         setIsRightOverlay(false);
         setRightOpen(true);
       }
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -287,15 +296,19 @@ export default function Dashboard() {
 
   const tabs = ["For You", "Trending Projects", "Community Feed"];
 
+  // Lógica para unirse a una comunidad (puedes adaptarlo luego a tu base de datos)
   const handleJoinCommunity = (communityName) => {
     console.log(`Unido a ${communityName}`);
+    // Aquí podrías agregar un pequeño estado para cambiar "Join" a "Joined" visualmente
   };
 
   return (
-    <div className="layout">
+
+    < div className="layout" >
       {isOverlay && sidebarOpen && (
         <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />
-      )}
+      )
+      }
 
       {/* ── Sidebar ── */}
       <aside className={`sidebar ${sidebarOpen ? "sidebar--open" : "sidebar--closed"} ${isOverlay ? "sidebar--overlay" : ""}`}>
@@ -320,11 +333,8 @@ export default function Dashboard() {
                 {badge && <span className="nav-item__badge">{badge}</span>}
               </button>
             ))}
-            <button className="btn-new-project" onClick={() => requireAuth(() => router.push("/post/new"))}>
-              <Plus size={16} /> New Post
-            </button>
-            <button className="btn-new-project" onClick={() => requireAuth(() => router.push("/community/new"))}>
-              <Plus size={16} /> New Community
+            <button className="btn-new-project" onClick={() => router.push("/post/new")}>
+              <Plus size={16} /> New Project
             </button>
           </nav>
 
@@ -344,7 +354,7 @@ export default function Dashboard() {
       <div className="main">
         {/* Topbar */}
         <header className="topbar">
-          <button className="topbar__toggle" onClick={() => requireAuth(() => { if (isRightOverlay && rightOpen) setRightOpen(false); setSidebarOpen((v) => !v); })}>
+          <button className="topbar__toggle" onClick={() => { if (isRightOverlay && rightOpen) setRightOpen(false); setSidebarOpen((v) => !v); }}>
             {sidebarOpen ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
           </button>
           <h1 className="topbar__title">OpenHands</h1>
@@ -361,7 +371,7 @@ export default function Dashboard() {
 
           {/* ── FEED WRAPPER ── */}
           <div className="feed-wrapper">
-            
+
             {/* Feed Scroll */}
             <div className="feed-scroll">
               <div className="search-wrapper">
@@ -387,13 +397,13 @@ export default function Dashboard() {
                 ))}
               </div>
 
-              {POSTS.map((post) => <PostCard key={post.id} post={post} />)}
+              {posts.map((post) => <PostCard key={post.id} post={post} />)}
             </div>
 
             {/* FAB */}
-            <button 
-              className="fab-new-post" 
-              onClick={() => requireAuth(() => router.push("/post/new"))}
+            <button
+              className="fab-new-post"
+              onClick={() => router.push("/post/new")}
               title="Nueva publicación"
             >
               <PenSquare size={24} />
@@ -416,7 +426,7 @@ export default function Dashboard() {
 
           {/* Right sidebar */}
           <div className={`right-sidebar ${rightOpen ? "right-sidebar--open" : "right-sidebar--closed"} ${isRightOverlay ? "right-sidebar--overlay" : ""}`}>
-            
+
             {/* Trending */}
             <div className="widget widget--trending">
               <div className="widget__header">
@@ -425,8 +435,8 @@ export default function Dashboard() {
               </div>
               <div className="trending-tags">
                 {TRENDING.map((t) => (
-                  <button 
-                    key={t} 
+                  <button
+                    key={t}
                     className="trending-tag"
                     onClick={() => router.push(`/search?q=${encodeURIComponent(t)}`)}
                   >
@@ -450,9 +460,9 @@ export default function Dashboard() {
                       <div className="recommended-item__name" onClick={() => router.push('/community')}>{c.name}</div>
                       <div className="recommended-item__members">{c.members} members</div>
                     </div>
-                    <button 
+                    <button
                       className="recommended-item__join"
-                      onClick={() => requireAuth(() => handleJoinCommunity(c.name))}
+                      onClick={() => handleJoinCommunity(c.name)}
                     >
                       Join
                     </button>
@@ -463,6 +473,6 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
