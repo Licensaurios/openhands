@@ -255,23 +255,44 @@ export default function Dashboard() {
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false)
-  const [loadingTrends, setLoadingTrends] = useState(false);
+  //cargando de trend comunities
+  const [loadingTCommunities, setLoadingTCommunities] = useState(false);
+  //cargando de user comunities(abajo a la izquierda)
   const [loadingUserComunity, setLoadingUserComunity] = useState(false);
-  const [trendsData, setTrendsData] = useState([]);
+  //fetch de las comunidades en trend
+  const [trendsComunities, setTrendsComunitiesData] = useState([]);
+  //fetch de las comunidades de los usuarios
   const [userCommunitys, setUserCommunitys] = useState([]);
+  //fetch de trending topic
+  const [trendingTopics, setTrendingTopics] = useState([]);
+  // cargando de trend
+  const [loadingTrendsTopics, setloadingTrendsTopics] = useState(false);
   //xD
   //fetch de las comnidades del usuario
   //pendiente de finalizar: loading animations
+
   async function loaduserdata() {
+    //fetch de trending topics
     try {
-      setLoadingTrends(true);
+      setloadingTrendsTopics(true)
+      const trendtopics = await fetch(`/api/trending_topic`);
+      const data = await trendtopics.json();
+      setTrendingTopics(data);
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setloadingTrendsTopics(false)
+    }
+    //fetch de trends comunities
+    try {
+      setLoadingTCommunities(true);
       const trends = await fetch(`/api/trending/`);
-      const trendsData = await trends.json();
-      setUserCommunitys(trendsData);
+      const trendsComunities = await trends.json();
+      setTrendsComunitiesData(trendsComunities);
     } catch (e) {
       console.log("errores: ", e);
     } finally {
-      setLoadingTrends(false)
+      setLoadingTCommunities(false)
 
     }
     //loading de los datos de 'mis comunidades':D
@@ -471,7 +492,7 @@ export default function Dashboard() {
                 <span className="widget__title">Trending Topics</span>
               </div>
               <div className="trending-tags">
-                {trendsData.map((t) => (
+                {trendingTopics.map((t) => (
                   <button
                     key={t}
                     className="trending-tag"
@@ -490,7 +511,7 @@ export default function Dashboard() {
                 <span className="widget__title">Recommended</span>
               </div>
               <div className="recommended-list">
-                {RECOMMENDED_COMMUNITIES.map((c, i) => (
+                {trendsComunities.map((c, i) => (
                   <div key={i} className="recommended-item">
                     <div className="recommended-item__icon">{c.icon}</div>
                     <div className="recommended-item__info">
