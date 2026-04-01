@@ -189,16 +189,16 @@ function PostCard({ post }) {
                 <span className="post-card__refs-title">References</span>
               </div>
               <div className="post-card__refs-list">
-                {post.refs.map((url, i) => (
+                {post.refs.map((ref, i) => (
                   <div key={i} className="post-card__ref-item">
                     <Link2 size={13} color="#8B92A9" />
                     <div>
                       <a
                         className="post-card__ref-label"
-                        href={url}
+                        href={ref.link}
                         target="_blank"
                         rel="noopener noreferrer">
-                        {url}
+                        {ref.label}
                       </a>
                     </div>
                   </div>
@@ -265,8 +265,9 @@ export default function Dashboard() {
   async function loaduserdata() {
     try {
       setLoadingTrends(true);
-    ////  const trendsData = await trends.json();
-    //  setUserCommunitys(trendsData);
+      const trends = await fetch(`/api/community/trending`);
+      const trendsData = await trends.json();
+      setUserCommunitys(trendsData);
     } catch (e) {
       console.log("errores: ", e);
     } finally {
@@ -275,10 +276,10 @@ export default function Dashboard() {
     }
     //loading de los datos de 'mis comunidades':D
     try {
-      setLoadingUserComunity(true);
-      const userdata = await fetch(`/api/userdata/`);
-      const userCommunitys = await userdata.json();
-      setUserCommunitys(userCommunitys);
+    //  setLoadingUserComunity(true);
+    //  const userdata = await fetch(`/api/userdata/`);
+    //  const userCommunitys = await userdata.json();
+    //  setUserCommunitys(userCommunitys);
     } catch (e) {
       console.log("errores:", e);
     } finally {
@@ -291,10 +292,23 @@ export default function Dashboard() {
       setLoading(true)
       const response = await fetch(`/api/resources?page=${page}`);
       const data = await response.json()
-      // console.log("data:", data);comentado con gc: V
+    //  console.log(data.items[0])
+    //  console.log(data.items[3])
+    //  data.items.pop()
+    //  Array.slice()
+
+    //  data.items = data.items.slice(1, 6)
+    //  data.items.push(data.items[1])
+
+    //  console.log("data:", data);// comentado con gc: V
       setPosts(data.items);
       SetHasMore(data.has_more);
     } catch (error) {
+    //    const first = data.items[0]
+    //  console.log(data.items[0])
+    //  console.log(data.items[3])
+    //  console.log(first.link)
+
       console.error("Error fetching posts:", error);
     } finally {
       setLoading(false)
@@ -374,6 +388,8 @@ export default function Dashboard() {
             </button>
           </nav>
 
+            {
+                /*
           <div>
             <span className="sidebar__section-label">My Communities</span>
             {userCommunitys.map((c) => (
@@ -383,6 +399,8 @@ export default function Dashboard() {
               </button>
             ))}
           </div>
+                */
+            }
         </div>
       </aside>
 
