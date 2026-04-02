@@ -25,7 +25,6 @@ export default async function PostPage({ params }) {
     cache: "no-store",
   });
   const post = await res.json();
-  console.log(post)
 
 //  console.log(post)
   return <PostClient initialPost={post} />;
