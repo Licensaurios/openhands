@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import "./user.css";
-import { PostCardSkeleton } from "../skeleton";
+import { PostCardSkeleton } from "../../components/SkeletonPost";
 
 // ─── Palette ─────────────────────────────────────────────────────────────────
 const C = {

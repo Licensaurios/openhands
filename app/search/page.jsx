@@ -11,10 +11,11 @@ import {
 } from "lucide-react";
 import styles from "./search.module.css";
 import "../globals.css"; 
+import { PostCardSkeleton } from "../components/SkeletonPost"
 
 // ─── Static data ──────────────────────────────────────────────────────────────
 const POPULAR_TAGS = [
-  "#linux", "#bash", "#nginx", "#docker", "#python",
+  "#tolkien", "#bash", "#nginx", "#docker", "#python",
   "#react", "#postgresql", "#ci_cd", "#vercel", "#nextjs",
 ];
 
@@ -206,18 +207,44 @@ function SearchContent() {
   const router       = useRouter();
   const searchParams = useSearchParams(); 
 
-  const [query,          setQuery]          = useState(searchParams.get("q") || "linux");
-  const [inputVal,       setInputVal]       = useState(searchParams.get("q") || "linux");
+  const [query,          setQuery]          = useState(searchParams.get("q") || "");
+  const [isLoading,      setIsLoading]      = useState(false);      
+  const [inputVal,       setInputVal]       = useState(searchParams.get("q") || "");
   const [activeTags,     setActiveTags]     = useState([]);
   const [customTag,      setCustomTag]      = useState("");
+  const [results,        setResults]        = useState([]);
   const [addingTag,      setAddingTag]      = useState(false);
   const [community,      setCommunity]      = useState("Todas");
   const [sort,           setSort]           = useState("Relevancia");
-  const [filtersVisible, setFiltersVisible] = useState(true);
+  const [filtersVisible, setFiltersVisible] = useState(false);
   const [allTags,        setAllTags]        = useState(POPULAR_TAGS);
   const customTagRef = useRef(null);
+  const queryRef = useRef(query);
 
-  useEffect(() => { if (addingTag) customTagRef.current?.focus(); }, [addingTag]);
+  useEffect(() => {
+     if (addingTag) customTagRef.current?.focus(); 
+
+  }, [addingTag]);
+
+  useEffect(() => {
+    //const params = new URLSearchParams();   
+    //if (this.window !== undefined) {
+        //console.log(searchParams.entries())
+    //if (query) params.set("q", query);
+    (async () => { 
+        setIsLoading(true);
+        const resp = await fetch(`/api/resources?q=${encodeURIComponent(query)}`)
+        const results = await resp.json();
+        console.log(results)
+
+        setResults(results.items);
+        setFiltersVisible(true);
+        setIsLoading(false);
+
+     })();
+    //}
+
+  }, [query])
 
   const toggleTag = (tag) => {
     setActiveTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
@@ -237,21 +264,37 @@ function SearchContent() {
     setActiveTags([]);
     setCommunity("Todas");
     setSort("Relevancia");
+    setInputVal("");
+    queryRef.current?.focus()
   };
 
   const hasFilters = activeTags.length > 0 || community !== "Todas" || sort !== "Relevancia";
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     setQuery(inputVal);
-  };
+    try {
+        const tags = activeTags.map(t => t.replace("#", "")).join(",");
+        const resp = await fetch(`/api/resources?q=${encodeURIComponent(inputVal)}&tags=${encodeURIComponent(tags)}`);
+        const resources = await resp.json()
+    
+        setResults(resources.items);
+        setIsLoading(false);
+        //setResults(MOCK_RESULTS.filter(p => {
 
-  const results = MOCK_RESULTS.filter(p => {
-    const matchQuery = !query || p.title.toLowerCase().includes(query.toLowerCase()) || p.tags.some(t => t.includes(query.toLowerCase()));
-    const matchTags  = activeTags.length === 0 || activeTags.some(at => p.tags.includes(at));
-    const matchComm  = community === "Todas" || p.community === community;
-    return matchQuery && matchTags && matchComm;
-  });
+    } catch (err) {
+        setResults(MOCK_RESULTS.filter(p => {
+            const matchQuery = !inputVal || p.title.toLowerCase().includes(inputVal.toLowerCase()) || p.tags.some(t => t.includes(inputVal.toLowerCase()));             
+            const matchTags  = activeTags.length === 0 || activeTags.some(at => p.tags.includes(at));
+            const matchComm  = community === "Todas" || p.community === community;
+            return matchQuery && matchTags && matchComm;
+        }))
+        setIsLoading(false);
+
+      };
+    }
+
 
   return (
     <div className={styles.pageWrapper}>
@@ -281,6 +324,7 @@ function SearchContent() {
             <Search size={18} className={styles.searchIconLeft} />
             <input
               value={inputVal}
+              ref={queryRef}
               onChange={e => setInputVal(e.target.value)}
               placeholder="Buscar scripts, comunidades o #tags..."
               className={styles.searchInput}
@@ -378,39 +422,76 @@ function SearchContent() {
           </div>
 
           {/* Results count */}
-          <div className={styles.resultsCountRow}>
-            <span className={styles.resultsText}>
-              {results.length > 0
-                ? <><span className={styles.resultsBold}>{results.length} resultados</span> para "{query || "todo"}"</>
-                : <span className={styles.resultsError}>Sin resultados para "{query}"</span>
-              }
-            </span>
-            {activeTags.length > 0 && (
-              <div className={styles.activeTagsRow}>
-                {activeTags.map(t => (
-                  <span key={t} className={styles.activeTagPill}>
-                    {t}
-                    <button onClick={() => toggleTag(t)} className={styles.removeTagBtn}>
-                      <X size={10} />
-                    </button>
-                  </span>
-                ))}
+          {
+            isLoading ? 
+                <div className={styles.resultsCountRow}>                
+                    <span className={styles.resultsText}>
+                        Obteniendo resultados...
+                    </span>
+                </div>
+                : 
+              <div className={styles.resultsCountRow}>
+                <div className={styles.resultsText}>
+                  {results.length === 0 && !isLoading && query === undefined
+                    ? 
+                    <span className={styles.resultsError}>Sin resultados para &rdquo;{query}&rdquo;</span>
+                    : 
+                    <>
+                     {results.length > 0 ? 
+                        <><span className={styles.resultsBold}>{results.length} resultados</span> para &rdquo; {query || "todo"}&rdquo;</>
+                        : 
+                        <></>
+                    }
+                    </>
+                  }
+               
+                {activeTags.length > 0 && (
+                  <div className={styles.activeTagsRow}>
+                    {activeTags.map(t => (
+                      <span key={t} className={styles.activeTagPill}>
+                        {t}
+                        <button onClick={() => toggleTag(t)} className={styles.removeTagBtn}>
+                          <X size={10} />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+              </div>
+          }
 
           {/* Results */}
-          {results.length > 0
-            ? results.map(post => <PostCard key={post.id} post={post} query={query} />)
-            : (
-              <div className={styles.emptyState}>
-                <div className={styles.emptyIcon}>🔍</div>
-                <span className={styles.emptyTitle}>Sin resultados</span>
-                <span className={styles.emptyDesc}>Intenta con otros tags o términos de búsqueda</span>
-                <button onClick={clearAll} className={styles.emptyBtn}>Limpiar filtros</button>
-              </div>
-            )
-          }
+
+                {
+                    isLoading || results.length < 0 ?
+                        <>
+                            {[...Array(5)].map((_, i) => (
+                                <PostCardSkeleton key={i} />
+                            ))} 
+                        </>
+                    :
+                    query !== undefined
+                      ? 
+                      results.length > 0 
+                          ?
+                            results.map(post => <PostCard key={post.id} post={post} query={query} />)
+                          :
+                            <>
+                               {[...Array(5)].map((_, i) => (
+                                <PostCardSkeleton key={i} />
+                               ))} 
+                          </>
+
+                      : (
+                        <div className={styles.emptyState}>
+                          <div className={styles.emptyIcon}>🔍</div>
+                          <span className={styles.emptyTitle}>Sin resultados</span>
+                          <span className={styles.emptyDesc}>Intenta con otros tags o términos de búsqueda</span>
+                          <button onClick={clearAll} className={styles.emptyBtn}>Limpiar filtros</button>
+                        </div>
+                      )
+                }
         </div>
       </div>
     </div>
