@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import styles from "../post.module.css";
 import "../../globals.css";
-import Link from "next/link";
 
 // ─── Mock comments ────────────────────────────────────────────────────────────
 const INITIAL_COMMENTS = [
@@ -338,13 +337,13 @@ export default function PostClient({ initialPost }) {   // ← recibe el post co
               </div>
               <div className={styles.refsGrid}>
                 {post.refs.map((r, i) => (
-                  <Link key={i} className={styles.refCard} href={r.link} target="_blank" rel="noopener noreferrer">
+                  <a key={i} className={styles.refCard} href={r.link} target="_blank" rel="noopener noreferrer">
                     <Link2 size={14} color="var(--muted)" />
                     <div>
                       <div className={styles.refLabel}>{r.label}</div>
                       <div className={styles.refSub}>{r.sub}</div>
                     </div>
-                  </Link>
+                  </a>
                 ))}
               </div>
             </div>

@@ -12,6 +12,9 @@ import {
 import styles from "./search.module.css";
 import "../globals.css"; 
 import { PostCardSkeleton } from "../components/SkeletonPost"
+import { PostCard } from "../components/Post"   
+import { Tag } from "../components/Tag"; 
+
 
 // ─── Static data ──────────────────────────────────────────────────────────────
 const POPULAR_TAGS = [
@@ -78,129 +81,6 @@ function LikeButton({ count }) {
   );
 }
 
-function Tag({ label, active, onClick }) {
-  return (
-    <button 
-      onClick={onClick} 
-      className={`${styles.tagBtn} ${active ? styles.tagActive : ""}`}
-    >
-      {label}
-    </button>
-  );
-}
-
-function PostCard({ post, query }) {
-  const { requireAuth, isSignedIn } = useAuthGate();
-  const router = useRouter();
-  const [saved, setSaved] = useState(false);
-
-  const highlightTitle = (title) => {
-    if (!query) return title;
-    const regex = new RegExp(`(${query})`, "gi");
-    const parts = title.split(regex);
-    return parts.map((p, i) =>
-      regex.test(p)
-        ? <mark key={i} className={styles.highlight}>{p}</mark>
-        : p
-    );
-  };
-
-  return (
-    <div className={`${styles.postCard} ${post.featured ? styles.postCardFeatured : ""}`}>
-      {post.featured && (
-        <div className={styles.featuredBanner}>
-          <Star size={12} fill="#fff" color="#fff" />
-          <span>FEATURED PROJECT</span>
-        </div>
-      )}
-
-      <div className={styles.cardInner}>
-        <div className={styles.voteColumn}>
-          <LikeButton count={post.votes} />
-        </div>
-
-        <div className={styles.cardBody}>
-          <div className={styles.postMeta}>
-            <span className={styles.postCommunity} onClick={() => router.push(`/community`)}>
-              {post.community}
-            </span>
-            <span className={styles.metaDivider}>•</span>
-            <span className={styles.metaText}>Posted by {post.author}</span>
-            <span className={styles.metaDivider}>•</span>
-            <span className={styles.metaText}>{post.time}</span>
-          </div>
-
-          <h3 className={styles.postTitle} onClick={() => router.push(`/post`)}>
-            {highlightTitle(post.title)}
-          </h3>
-
-          {post.hasCode && (
-            <div className={styles.codeBlock}>
-              <div className={styles.codeHeader}>
-                <div className={styles.macButtons}>
-                  <div style={{ background: "#FF5F57" }} />
-                  <div style={{ background: "#FFBD2E" }} />
-                  <div style={{ background: "#28C840" }} />
-                </div>
-                <span className={styles.codeLangBadge}>{post.codeLang}</span>
-              </div>
-              {post.codeLines.map((l, i) => (
-                <div key={i} className={styles.codeLine} style={{ color: l.color }}>
-                  {l.text}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {post.refs?.length > 0 && (
-            <div className={styles.refsWrapper}>
-              <div className={styles.refsHeader}>
-                <Link2 size={14} color="var(--orange)" />
-                <span>References</span>
-              </div>
-              <div className={styles.refsGrid}>
-                {post.refs.map((r, i) => (
-                  <div key={i} className={styles.refCard}>
-                    <Link2 size={13} color="var(--muted)" />
-                    <div>
-                      <div className={styles.refLabel}>{r.label}</div>
-                      <div className={styles.refSub}>{r.sub}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className={styles.tagsRow}>
-            {post.tags.map(t => <Tag key={t} label={t} />)}
-            {post.rating && (
-              <div className={styles.ratingBox}>
-                <Star size={14} fill="var(--orange)" color="var(--orange)" />
-                <span>{post.rating}</span>
-              </div>
-            )}
-          </div>
-
-          <div className={styles.actionRow}>
-            {[{ icon: MessageCircle, label: `${post.comments} Comments` }, { icon: Share2, label: "Share" }].map(({ icon: Icon, label }) => (
-              <button key={label} className={styles.actionBtn}>
-                <Icon size={14} />{label}
-              </button>
-            ))}
-            <button 
-              onClick={() => requireAuth(() => setSaved(v => !v))} 
-              className={`${styles.actionBtn} ${styles.saveBtn} ${saved ? styles.saveBtnActive : ""}`}
-            >
-              <Bookmark size={14} fill={saved ? "var(--orange)" : "none"} />
-              {saved ? "Saved" : "Save"}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ─── Inner component (uses useSearchParams) ───────────────────────────────────
 function SearchContent() {
