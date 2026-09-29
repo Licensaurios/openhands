@@ -78,7 +78,7 @@ Un sistema de calificaciones vinculado a la reputación de los usuarios asegura 
 
 ## 💬 Filosofía
 
-OpenHands nació con la convicción de que **el conocimiento compartido crece**. Cada recurso que un usuario aporta multiplica el valor de la plataforma para todos. Creemos en la transparencia, la colaboración y el respeto mutuo como pilares de una comunidad educativa sana y próspera.
+OpenHands nació con la convicción de que **el conocimiento compartido crece**. Cada recurso que un usuario aporta multiplica el valor de la plataforma para todos. Creemos en la transparencia, la colaboración y el respeto mutuo como pilares de una comunidad educativa sana y próspera. El conocimiento que no se comparte no existe, por lo que entre más personas sean impactadas y puedan acceder a la ciencia y aprendizaje es de bendición.
 
 ---
 
